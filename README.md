@@ -1,0 +1,2 @@
+# RNCS-Source-Platform
+基于nillerusr的Android源引擎和DeepDC的RNCS制作的CSMOS对战平台
