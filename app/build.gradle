@@ -1,0 +1,164 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'com.google.devtools.ksp'
+    id 'com.google.dagger.hilt.android'
+    id 'org.jetbrains.kotlin.plugin.compose'
+    id 'org.jetbrains.kotlin.plugin.parcelize'
+}
+
+android {
+    namespace 'com.valvesoftware.source'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId "rn.csgo.game" // 包名
+        minSdk 21
+        //noinspection ExpiredTargetSdkVersion
+        targetSdk 24
+        versionCode 1
+
+        ndkVersion  "25.2.9519653"
+        ndk {
+            //noinspection ChromeOsAbiSupport
+            // abiFilters 'arm64-v8a'/* , 'armeabi-v7a'*/
+            abiFilters.add("arm64-v8a")
+            // abiFilters.add("x86_64")
+        }
+        multiDexEnabled true
+//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        flavorDimensions "region"
+        productFlavors {
+            create('global') {
+                dimension "region"
+                versionName "v9.0"
+                applicationIdSuffix ".lite"
+            }
+            create('china')  {
+                dimension "region"
+                versionName "r11.4"
+            }
+        }
+    }
+
+    if (project.findProperty('RnCS.buildVariant') == 'china') {
+        externalNativeBuild {
+            cmake {
+                path file("src/china/cpp/CMakeLists.txt")
+                version "3.22.1"
+            }
+        }
+    }
+
+    android.applicationVariants.configureEach {
+        variant ->
+            variant.outputs.configureEach {
+                def flavorName = variant.flavorName
+                //在这里修改生成的apk文件名
+                outputFileName = "RnCS_${variant.versionName.replace(" ", "_")}.apk"
+//                outputFileName = "RnMOS_${flavorName.replace("-", ".")}_${variant.versionName}.apk"
+            }
+
+            if (project.findProperty('RnCS.includeAssets') != 'true' || project.findProperty('RnCS.buildVariant') != 'china') {
+                def outputDir = variant.mergeAssetsProvider.get().outputDir
+                variant.mergeAssetsProvider.configure {
+                    doLast {
+                        println("[gradle] assets输出目录: " + outputDir)
+                        delete(fileTree(dir: outputDir, includes: ['libs/**', '*.vpk']))
+                    }
+                }
+            }
+    }
+
+
+    signingConfigs {
+        debug {
+            storeFile file(project.findProperty("signing.RnCS.file") ?: "")
+            storePassword project.findProperty("signing.RnCS.password") ?: ""
+            keyAlias project.findProperty("signing.RnCS.keyAlias") ?: ""
+            keyPassword project.findProperty("signing.RnCS.password") ?: ""
+        }
+    }
+
+    buildTypes {
+        release {
+//            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            externalNativeBuild {
+                cmake {
+                    arguments "-DCMAKE_CXX_FLAGS=-fvisibility=hidden -fvisibility-inlines-hidden"
+                }
+            }
+            //signingConfig signingConfigs.debug
+            debuggable false
+            signingConfig signingConfigs.debug
+        }
+        debug {
+            minifyEnabled false
+//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            //signingConfig signingConfigs.debug
+            signingConfig signingConfigs.debug
+            debuggable true
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+
+    lint {
+        abortOnError false
+        checkReleaseBuilds false
+    }
+
+    buildFeatures {
+        viewBinding true
+        dataBinding true
+        compose true
+        buildConfig true
+    }
+}
+
+kapt {
+    correctErrorTypes true
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+
+    if (project.findProperty('RnCS.buildVariant') == 'china') {
+        implementation project(':common') // 公共依赖库
+        implementation project(':GtaStart') // GtaStart 论坛
+        implementation project(':dyso') // 动态库加载
+    } else {
+        globalImplementation 'androidx.appcompat:appcompat:1.7.0'
+        globalImplementation 'androidx.activity:activity:1.10.1'
+        globalImplementation 'androidx.core:core-ktx:1.15.0'
+        globalImplementation 'com.google.android.material:material:1.12.0'
+        globalImplementation 'com.google.code.gson:gson:2.10.1'
+        globalImplementation 'com.google.android.flexbox:flexbox:3.0.0'
+        globalImplementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    }
+
+    // Hilt 依赖注入
+    implementation 'com.google.dagger:hilt-android:2.55'
+    kapt 'com.google.dagger:hilt-compiler:2.55'
+
+    // room
+    def room_version = "2.6.1"
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    ksp "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-paging:$room_version"
+
+    // 更方便的 compose 页面导航 需要在每个要用的模块中添加
+    implementation 'io.github.raamcosta.compose-destinations:core:1.11.9'
+    ksp 'io.github.raamcosta.compose-destinations:ksp:1.11.9'
+
+}
