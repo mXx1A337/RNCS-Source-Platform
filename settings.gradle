@@ -1,0 +1,43 @@
+pluginManagement {
+    repositories {
+        google {
+            content {
+                includeGroupByRegex("com\\.android.*")
+                includeGroupByRegex("com\\.google.*")
+                includeGroupByRegex("androidx.*")
+            }
+        }
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+        maven { url 'https://repo1.maven.org/maven2/' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
+        maven { url 'https://maven.google.com' }
+    }
+}
+
+rootProject.name = "RnCS"
+include ':app'
+
+def buildVariant = settings.ext.find("RnCS.buildVariant") ?: 'global'
+
+if (buildVariant == 'china') {
+    include ':common'
+    project(':common').projectDir = new File(settingsDir, "../Rn_Common/common")
+    include ':GtaStart'
+    project(':GtaStart').projectDir = new File(settingsDir, "../GtaStart_app")
+    include ':dyso'
+    project(':dyso').projectDir = new File(settingsDir, "../Dyso_G/dyso")
+    include ':ZibllApi'
+    project(':ZibllApi').projectDir = new File(settingsDir, "../../../Jvav/ZibllApi/ZibllApi")
+}
+
+

@@ -1,0 +1,73 @@
+{
+  "app":{
+    "version":"v9.0",
+    "versionCode":"1",
+    "updateMsg":"there's new version!",
+    "allowVersions":"v9.0",
+    "notice":"RnCS更新请加群\n————请加入Rn:MOS通知群756647416获取更新\n\nRn所有服务器已经关闭友伤与麦克风，请文明游戏\n反馈进入官方群:756647416\n满十竞技服密码加群获取\n\n软件完全免费，若上当受骗，概不负责",
+    "popOutNotice":"自助开服功能正在维护中\n\n如果遇到无法进入游戏主菜单，卡在CSMOS或者CM图标启动界面，不显示菜单UI按钮和设置选项等，请重新解压数据包，解压过程中不要离开软件，避免解压不完全。或者使用MT管理器手动解压（下载的数据包处于/storage/emulated/0/Download/CSMOSDownload/目录下），下个版本将着力优化和修复解压问题，替换为MT管理器同款7z解压库",
+    "noticeVersion":7,
+    "isPopOutNotice":1,
+    "link":"http://106.52.5.176:5244/d/GTADE/CSMOS/apk/RnCS_r11.4.apk",
+    "isDirectLink":0,
+    "enableApp":1,
+    "enableLink":1,
+    "disableReason":"1"
+  },
+  "functions":{
+    "customRooms":0,
+    "customRoomsV2": {"version":6, "enable":1}
+  },
+  "maps":{
+    "csmos":[
+      {"name":"aim_map_csgo","desc":"单挑-1v1","type":"1v1"},
+      {"name":"RnMOS1v1","desc":"单挑-1v1","type":"1v1"},
+      {"name":"cf_2013mingyueguangchang","desc":"爆破-CF新年广场","type":"de"},
+      {"name":"de_inferno_mc_css","desc":"爆破-我的世界版小镇","type":"de"},
+      {"name":"cs_office_csgo","desc":"爆破-办公室","type":"de"},
+      {"name":"de_nuke_old_blue","desc":"爆破-核子危机","type":"de"},
+      {"name":"de_mirage_csgo_v2","desc":"爆破-荒漠迷城","type":"de"},
+      {"name":"de_inferno_csgo_cssold_fix","desc":"爆破-炼狱小镇","type":"de"},
+      {"name":"de_ancient_csgo_cssold","desc":"爆破-远古遗迹","type":"de"},
+      {"name":"de_vertigo_csgo_v34_fix","desc":"爆破-殒命大厦","type":"de"},
+      {"name":"de_anubis_css","desc":"爆破-阿努比斯","type":"de"},
+      {"name":"de_dust2_csgo_new","desc":"爆破-沙漠2","type":"de"},
+      {"name":"de_mirage_fps_final","desc":"爆破-米垃圾无贴图(FPS)版","type":"de"},
+      {"name":"de_dust2_fps_final","desc":"爆破-沙漠2无贴图(FPS)版","type":"de"},
+      {"name":"$2000$","desc":"团竞-2000","type":"tdm"},
+      {"name":"cf_ship_ren","desc":"团竞-CF运输船","type":"tdm"},
+      {"name":"fy_snow","desc":"歼灭-雪地","type":"te"}
+    ],
+    "cm":[]
+  },
+  "link":{
+    "mapLink":"http://160.202.247.156:5678/csmos",
+    "dataLink":[
+      {
+        "title":"CSMOS v6.5数据包(线路1)",
+        "url":"http://106.52.5.176:5244/d/GTADE/CSMOS/CSMOS游戏数据v6.5.7z",
+        "type":"GameDataPackage"
+      },
+      {
+        "title":"CSMOS v7.x通用数据包(线路1)",
+        "url":"http://106.52.5.176:5244/d/GTADE/CSMOS/CSMOS游戏数据v7.x通用.7z",
+        "type":"GameDataPackage"
+      },
+      {
+        "title":"(CM)ClientMod数据包(线路1)",
+        "url":"http://106.52.5.176:5244/d/GTADE/CSMOS/ClientMod游戏数据_1.31.zip",
+        "type":"GameDataPackageCM"
+      }
+    ],
+    "serverRootLink":[
+      "135.125.188.162:27010",
+      "168.138.92.21:27016",
+      "oreo922.cn:27010",
+      "cs.samp.fun:27010"
+    ],
+    "cmRootLink":[
+      "135.125.188.162:27010",
+      "103.8.71.148:33852"
+    ]
+  }
+}
